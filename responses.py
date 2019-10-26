@@ -23,11 +23,8 @@ def check_weather(command):
     observation = owm.weather_at_place(command)
     w = observation.get_weather()
 
-    report = "It's {0} degrees, and I would describe the condition as {1}"\
-        .format(
-            w.get_temperature(unit='fahrenheit')["temp"],
-            w.get_detailed_status()
-        )
+    report = "It's {temp} degrees, and I would describe the condition as {condition}".format(
+        temp=w.get_temperature(unit='fahrenheit')["temp"],  condition=w.get_detailed_status())
     return report
 
 
@@ -45,12 +42,15 @@ def define(command):
 
 def get_pic(command):
     """Queries Google custom search API for image"""
-    query = command.split('pics')[1]
-    url = requests.get(
-        'https://www.googleapis.com/customsearch/v1?'
-        'q={0}&searchType=image&cx=007354838275093180359%3A1grfal0jpz0&key={1}'.format(query, os.environ.get("GOOGLE_IMAGE_KEY"))
-    )
-    images = [im['link'] for im in url.json()['items']]
+    query = command.split('pics')[1].strip()
+    params = {
+        "cx": os.environ.get("GOOGLE_IMAGE_CX"),
+        "key": os.environ.get("GOOGLE_IMAGE_KEY"),
+        "searchType": "image",
+        "q": query
+    }
+    resp = requests.get('https://www.googleapis.com/customsearch/v1', params=params)
+    images = [im['link'] for im in resp.json()['items']]
     return random.choice(images)
 
 
@@ -61,7 +61,7 @@ def get_quote(command):
     ticker = command.split('quote ')[1].split()[0].upper()
 
     # make request
-    response = requests.get("https://cloud-sse.iexapis.com/stable/stock/{}/quote?token={}".format(ticker, secret))
+    response = requests.get(f"https://cloud-sse.iexapis.com/stable/stock/{ticker}/quote?token={secret}")
 
     data = response.json()
 
