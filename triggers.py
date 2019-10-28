@@ -2,7 +2,7 @@ import re
 
 
 match_triggers = (
-    (re.compile("(hey|hi|hello|hey bo|howdy|greetings)"), "hello"),
+    (re.compile("(hey|hi|hello|howdy|greetings)"), "hello"),
     (re.compile("define"), "define"),
     (re.compile("quote"), "quote")
 )
@@ -15,7 +15,7 @@ search_triggers = (
     (re.compile("(search)|(look up)|(google)"), "search"),
     (re.compile("synonyms"), "synonyms"),
     (re.compile("(wordcount)|(word count)"), "wordcount"),
-    (re.compile("(play|video|youtube|money|stock)"), "youtube"),
+    (re.compile("(play|video|youtube)"), "youtube"),
 )
 
 

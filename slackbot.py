@@ -43,7 +43,7 @@ def handle_command(command, channel):
 def parse_slack_output(slack_rtm_output):
     """Parses output data from Slack message stream"""
 
-    # read data from slack channel
+    # read data from slack channels
     output_list = slack_rtm_output
 
     if output_list and len(output_list) > 0:
